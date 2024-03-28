@@ -1,0 +1,57 @@
+GET http://[::1]:5005/produtos
+###
+
+POST http://[::1]:5005/produto
+Content-Type: application/json
+
+{
+    "preco": 99.99,
+    "nome": "Produto Teste",
+    "off": 0,
+    "descricao": "nick Descrição do produto teste",   
+    "categoria": "Teste",
+    "data_do_cadastro": "2024-03-19",
+    "ativo": false
+}
+
+
+###
+
+PATCH  http://[::1]:5005/produto/8
+Content-Type: application/json
+
+{
+    "ativo": false
+}
+###
+GET http://[::1]:5005/produtos/10
+
+###
+
+PUT http://[::1]:5005/produto/11
+Content-Type: application/json
+
+{
+    
+}
+     
+###
+
+DELETE http://[::1]:5005/produto/8
+
+###
+
+GET http://[::1]:5005/produtos/ativo
+
+###
+
+
+
+
+
+
+
+
+
+
+

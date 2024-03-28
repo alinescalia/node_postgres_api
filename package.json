@@ -1,0 +1,19 @@
+{
+  "name": "node_postgres_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "datenv": "^0.0.0",
+    "fastify": "^4.26.2",
+    "nodemon": "^3.1.0",
+    "pg": "^8.11.3"
+  }
+}
