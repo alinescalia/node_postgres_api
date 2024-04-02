@@ -25,10 +25,16 @@ export const ProdutoService = {
 
     selecProdutoativo: async (req, res) => {
 
-        const produtos = await config.query('SELECT * from public.produtos where ativo is true')
+        let statusdoprod = req.params.status == 'true' ? true : false // para transformar a string em boolean 
 
-        return (produtos.rows[0])
+        const query = `SELECT * from public.produtos where ativo is ${statusdoprod}` // o ${} para trazer qualquer valor de variavel
 
+        console.log(query)
+        //SELECIONAR PRODUTO POR STATUS
+
+        const produtos = await config.query(query)
+
+        return (produtos.rows)
 
     },
 
@@ -49,11 +55,14 @@ export const ProdutoService = {
             ativo
         ]
 
-        const push = await config.query('INSERT INTO public.produtos (nome, preco, off, descricao, categoria, data_do_cadastro, ativo) VALUES ($1,$2,$3,$4,$5,$6,$7)', produtobd)
-
-        console.log(produtobd)
-
-        return ('Novo produto criado!')
+        try {
+            // o returning dentro das aspas volta o valor adicionado o * volta todo pode ser por id entre outros!
+            const push = await config.query('INSERT INTO public.produtos (nome, preco, off, descricao, categoria, data_do_cadastro, ativo) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', produtobd)
+            res.semd(push.rows[0], 'Novo produto criado!')
+        }
+        catch {
+            res.status(500).send('Erro ao criar produto')
+        }
     },
 
     AtualizarprodParcial: async (req, res) => {
@@ -95,12 +104,16 @@ export const ProdutoService = {
         ]
 
 
-        const result = config.query('UPDATE public.produtos SET nome = $1, preco = $2, off = $3, descricao = $4, categoria= $5, data_do_cadastro = $6, ativo = $7 WHERE id = $8', values)
+        // MESMO Q O ANTERIOR
+        try {
 
-
-
-        console.log("Produto atualizado com sucesso!",)
-        return (prod2);
+            const result = await config.query('UPDATE public.produtos SET nome = $1, preco = $2, off = $3, descricao = $4, categoria= $5, data_do_cadastro = $6, ativo = $7 WHERE id = $8 RETURNING *', values)
+            console.log("Produto atualizado com sucesso!",)
+            res.send(result.rows[0], 'Produto atualizado com Sucesso');
+        }
+        catch {
+            res.status(400).send('Produto não pode ser atualizado!')
+        }
 
     },
 
@@ -112,8 +125,7 @@ export const ProdutoService = {
         let prod = produto
 
 
-        if
-            (!prod.rowCount) {
+        if (!prod.rowCount) {
             console.log(prod)
             res.status(404).send("Produto não encontrado!")
 
@@ -135,21 +147,33 @@ export const ProdutoService = {
             prodid
         ]
 
-        const push = config.query('UPDATE public.produtos SET nome = $1, preco = $2, off = $3, descricao = $4, categoria= $5, data_do_cadastro = $6, ativo = $7 WHERE id = $8', values)
-
-        console.log("Produto atualizado com sucesso!")
-        return (req.body);
+        //MESMO Q O ANTERIOR
+        try {
+            const push = await config.query('UPDATE public.produtos SET nome = $1, preco = $2, off = $3, descricao = $4, categoria= $5, data_do_cadastro = $6, ativo = $7 WHERE id = $8 RETURNING *', values)
+            console.log("Produto atualizado com sucesso!")
+            res.send(push.rows[0], 'Produto atualizado com sucesso!');
+        }
+        catch {
+            res.status(400).send('produto não pode ser atualizado!')
+        }
 
     },
 
     DeletarProduto: async (req, res) => {
 
         let prodid = req.params.id
-        const produto = await config.query('DELETE from public.produtos where ID=$1', [prodid])
+        const produto = await config.query('DELETE from public.produtos where ID=$1 RETURNING *', [prodid])
 
-        console.log(produto)
+        if (!produto.rowCount) {
+            console.log(prod)
+            res.status(404).send("Produto não encontrado!")
 
-        return ('Produto Deletado!');
+            return;
+        }
+
+        console.log(produto.rows[0])
+
+        return (produto.rows[0], 'Produto Deletado');
 
     }
 

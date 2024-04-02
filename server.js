@@ -1,11 +1,12 @@
 import Fastify from 'fastify'
 import { connection } from './db/db.js'
 import { ProdutoService } from './Services/produtos.service.js'
-
+import cors from '@fastify/cors'
 
 const fastify = Fastify({
     logger: false
 })
+await fastify.register(cors, {})
 
 connection()
 
@@ -23,7 +24,7 @@ fastify.get('/produtos', ProdutoService.selectProducts)
 
 fastify.get('/produtos/:id', ProdutoService.selectProductsporid)
 
-fastify.get('/produtos/ativo', ProdutoService.selecProdutoativo)
+fastify.get('/produtos/status/:status', ProdutoService.selecProdutoativo)
 
 fastify.post('/produto', ProdutoService.criarProduto)
 
