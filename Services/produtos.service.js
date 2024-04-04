@@ -40,28 +40,79 @@ export const ProdutoService = {
 
     criarProduto: async (req, res) => {
 
-        // let qtdids = await config.query('SELECT COUNT (*) FROM produtos')
-        // let nextid = newid + 1
+        //criar produto em um id q foi apagado!!!!
 
-        const { nome, preco, off, descricao, categoria, data_do_cadastro, ativo } = req.body
+        const idexist = await config.query('SELECT id from public.produtos order by id');
 
-        const produtobd = [
-            nome,
-            preco,
-            off,
-            descricao,
-            categoria,
-            data_do_cadastro,
-            ativo
-        ]
+        const arrayid = idexist.rows.map(id => Object.values(id));
 
-        try {
-            // o returning dentro das aspas volta o valor adicionado o * volta todo pode ser por id entre outros!
-            const push = await config.query('INSERT INTO public.produtos (nome, preco, off, descricao, categoria, data_do_cadastro, ativo) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', produtobd)
-            res.semd(push.rows[0], 'Novo produto criado!')
+        const arrayunico = [].concat.apply([], arrayid);
+
+        function encontraridemfalta(numeros) {
+
+            for (let i = 0; i < numeros.length - 1; i++) {
+                if (numeros[i + 1] - numeros[i] > 1) {
+                    const idmiss = numeros[i] + 1;
+                    return (idmiss)
+                };
+            };
+            return undefined
+        };
+
+        let idmiss = encontraridemfalta(arrayunico)
+
+
+
+        if (!idmiss) {
+            let qtdids = await config.query('SELECT COUNT (*) FROM produtos')
+            const arrayqtdid = qtdids.rows.map(id => Object.values(id));
+            const arrayqtdun = parseInt([].concat.apply([], arrayqtdid));
+
+
+            let nextid = arrayqtdun + 1
+
+
+            const { nome, preco, off, descricao, categoria, data_do_cadastro, ativo } = req.body
+
+            const produtobd = [
+                nextid,
+                nome,
+                preco,
+                off,
+                descricao,
+                categoria,
+                data_do_cadastro,
+                ativo
+            ]
+
+            try {
+                // o returning dentro das aspas volta o valor adicionado o * volta todo pode ser por id entre outros!
+
+                const push = await config.query('INSERT into public.produtos (id, nome, preco, off, descricao, categoria, data_do_cadastro, ativo) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *', produtobd)
+                res.send(push.rows[0], 'Novo produto criado!')
+            }
+            catch {
+                console.log(arrayqtdun)
+                res.status(500).send('Erro ao criar produto')
+            }
         }
-        catch {
-            res.status(500).send('Erro ao criar produto')
+        else {
+            const { nome, preco, off, descricao, categoria, data_do_cadastro, ativo } = req.body
+
+            const VALUESBD = [idmiss, nome, preco, off, descricao, categoria, data_do_cadastro, ativo]
+
+
+            try {
+                console.log(VALUESBD)
+                const push = await config.query('INSERT into public.produtos (id, nome, preco, off, descricao, categoria, data_do_cadastro, ativo) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *', VALUESBD)
+                res.send(push.rows[0], 'Novo produto criado!')
+            }
+
+            catch {
+                res.status(500).send('Erro ao criar produto')
+            }
+
+
         }
     },
 
@@ -153,8 +204,9 @@ export const ProdutoService = {
             console.log("Produto atualizado com sucesso!")
             res.send(push.rows[0], 'Produto atualizado com sucesso!');
         }
-        catch {
-            res.status(400).send('produto não pode ser atualizado!')
+        catch (err) {
+            console.log('Produto nao pode ser atualizado', err)
+            // res.status(400).send('produto não pode ser atualizado!')
         }
 
     },
@@ -165,7 +217,7 @@ export const ProdutoService = {
         const produto = await config.query('DELETE from public.produtos where ID=$1 RETURNING *', [prodid])
 
         if (!produto.rowCount) {
-            console.log(prod)
+            console.log(produto)
             res.status(404).send("Produto não encontrado!")
 
             return;
@@ -173,7 +225,7 @@ export const ProdutoService = {
 
         console.log(produto.rows[0])
 
-        return (produto.rows[0], 'Produto Deletado');
+        return ('Produto Deletado')
 
     }
 

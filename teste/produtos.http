@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
     "preco": 99.99,
-    "nome": "Produto Teste e agora denovo?",
+    "nome": "Produto Teste agora denovo?",
     "off": 0,
     "descricao": "nick Descrição do produto teste",   
     "categoria": "Teste",
@@ -31,13 +31,15 @@ GET http://[::1]:5005/produtos/10
 PUT http://[::1]:5005/produto/11
 Content-Type: application/json
 
-{
+{"preco": 9.99,
     
 }
      
 ###
 
-DELETE http://[::1]:5005/produto/19
+DELETE http://[::1]:5005/produto/22
+
+
 
 ###
 
