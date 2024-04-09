@@ -25,6 +25,7 @@ export const ProdutoService = {
 
     selecProdutoativo: async (req, res) => {
 
+        JSON.stringify()
         let statusdoprod = req.params.status == 'true' ? true : false // para transformar a string em boolean 
 
         const query = `SELECT * from public.produtos where ativo is ${statusdoprod}` // o ${} para trazer qualquer valor de variavel
@@ -44,9 +45,10 @@ export const ProdutoService = {
 
         const idexist = await config.query('SELECT id from public.produtos order by id');
 
-        const arrayid = idexist.rows.map(id => Object.values(id));
+        const arrayid = idexist.rows.map(({ id }) => id);
+        console.log(arrayid)
 
-        const arrayunico = [].concat.apply([], arrayid);
+        const arrayunico = arrayid;
 
         function encontraridemfalta(numeros) {
 
@@ -58,6 +60,13 @@ export const ProdutoService = {
             };
             return undefined
         };
+
+        // [
+        //     1,  2,  3,  5,  6,  7,  8,  9, 10,
+        //    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        //    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+        //    31, 32, 33, 34, 35, 36, 37, 38, 39
+        //  ].find((n, idx, arr) => n + 1 !== arr[idx + 1])
 
         let idmiss = encontraridemfalta(arrayunico)
 

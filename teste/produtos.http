@@ -37,7 +37,7 @@ Content-Type: application/json
      
 ###
 
-DELETE http://[::1]:5005/produto/22
+DELETE http://[::1]:5005/produto/5
 
 
 
@@ -46,6 +46,13 @@ DELETE http://[::1]:5005/produto/22
 GET http://[::1]:5005/produtos/status/false
 
 ###
+
+PATCH  http://[::1]:5005/produto/10/Livros
+
+###
+
+GET http://[::1]:5005/produtos/categoria/Livros
+
 
 
 

@@ -2,6 +2,7 @@ import Fastify from 'fastify'
 import { connection } from './db/db.js'
 import { ProdutoService } from './Services/produtos.service.js'
 import cors from '@fastify/cors'
+import { CategoriaService } from './Services/categoria.service.js'
 
 const fastify = Fastify({
     logger: false
@@ -33,6 +34,10 @@ fastify.patch('/produto/:id', ProdutoService.AtualizarprodParcial)
 fastify.put('/produto/:id', ProdutoService.AtualizarProduto)
 
 fastify.delete('/produto/:id', ProdutoService.DeletarProduto)
+
+fastify.patch('/produto/:id/:categoria', CategoriaService.adicionarcategoria)
+
+fastify.get('/produtos/categoria/:categoria', CategoriaService.produtosporcategoria)
 
 
 fastify.listen({ port: PORT }, (err, address) => {
