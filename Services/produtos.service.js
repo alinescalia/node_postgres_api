@@ -1,5 +1,5 @@
 import { config } from "../db/config/index.js";
-import { connection } from "../db/db.js";
+
 
 export const ProdutoService = {
 

@@ -1,8 +1,8 @@
 import Fastify from 'fastify'
 import { connection } from './db/db.js'
-import { ProdutoService } from './Services/produtos.service.js'
 import cors from '@fastify/cors'
 import { CategoriaService } from './Services/categoria.service.js'
+import { produtosRoutes } from './routes/produtos.routes.js'
 
 const fastify = Fastify({
     logger: false
@@ -10,6 +10,8 @@ const fastify = Fastify({
 await fastify.register(cors, {})
 
 connection()
+
+produtosRoutes(fastify)
 
 
 const PORT = 5005
@@ -21,20 +23,6 @@ fastify.get('/', (request, reply) => {
         "message": "Servidor Rodando!"
     })
 })
-fastify.get('/produtos', ProdutoService.selectProducts)
-
-fastify.get('/produtos/:id', ProdutoService.selectProductsporid)
-
-fastify.get('/produtos/status/:status', ProdutoService.selecProdutoativo)
-
-fastify.post('/produto', ProdutoService.criarProduto)
-
-fastify.patch('/produto/:id', ProdutoService.AtualizarprodParcial)
-
-fastify.put('/produto/:id', ProdutoService.AtualizarProduto)
-
-fastify.delete('/produto/:id', ProdutoService.DeletarProduto)
-
 fastify.patch('/produto/:id/:categoria', CategoriaService.adicionarcategoria)
 
 fastify.get('/produtos/categoria/:categoria', CategoriaService.produtosporcategoria)

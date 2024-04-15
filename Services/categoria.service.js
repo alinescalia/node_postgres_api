@@ -32,6 +32,7 @@ export const CategoriaService = {
 
         return (produto.rows[0])
 
-    },
+    }
+
 
 }
