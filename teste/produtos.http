@@ -1,7 +1,7 @@
-GET http://[::1]:5005/produtos
+GET http://127.0.0.1:5005/produtos
 ###
 
-POST http://[::1]:5005/produto
+POST http://127.0.0.1:5005/produto
 Content-Type: application/json
 
 {
@@ -17,14 +17,14 @@ Content-Type: application/json
 
 ###
 
-PATCH  http://[::1]:5005/produto/8
+PATCH  http://127.0.0.1:5005/produto/3
 Content-Type: application/json
 
 {
     "ativo": false
 }
 ###
-GET http://[::1]:5005/produtos/10
+GET http://127.0.0.1:5005/produtos/4
 
 ###
 

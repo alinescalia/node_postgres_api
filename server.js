@@ -1,8 +1,8 @@
 import Fastify from 'fastify'
 import { connection } from './db/db.js'
 import cors from '@fastify/cors'
-import { CategoriaService } from './Services/categoria.service.js'
 import { produtosRoutes } from './routes/produtos.routes.js'
+import { CategoriaRoutes } from './routes/categoria.routes.js'
 
 const fastify = Fastify({
     logger: false
@@ -13,8 +13,11 @@ connection()
 
 produtosRoutes(fastify)
 
+CategoriaRoutes(fastify)
+
 
 const PORT = 5005
+const HOST = process.env.HOST || '127.0.0.1'
 
 fastify.get('/', (request, reply) => {
     reply.send({
@@ -23,12 +26,7 @@ fastify.get('/', (request, reply) => {
         "message": "Servidor Rodando!"
     })
 })
-fastify.patch('/produto/:id/:categoria', CategoriaService.adicionarcategoria)
-
-fastify.get('/produtos/categoria/:categoria', CategoriaService.produtosporcategoria)
-
-
-fastify.listen({ port: PORT }, (err, address) => {
+fastify.listen({ host: HOST, port: PORT }, (err, address) => {
     if (err) {
         console.error('Erro ao subir o servdor', err)
         return;

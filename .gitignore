@@ -1,3 +1,9 @@
 node_modules
 .vscode
 .env
+
+## <!-- postgres:// -------- banco de dados 
+##aoi_node_postgres_render_user ----usuario :
+##xGwKadS98osnhkRLxqYzbjQoag2rpEhD ----password @
+##dpg-coerd8i1hbls7390sa7g-a.oregon-postgres.render.com ----- host /
+##aoi_node_postgres_render ------base de dados criada
