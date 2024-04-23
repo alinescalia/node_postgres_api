@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "cy:open": "cypress open"
   },
   "author": "",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "fastify": "^4.26.2",
     "nodemon": "^3.1.0",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "cypress": "^13.8.0"
   }
 }

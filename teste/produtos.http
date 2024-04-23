@@ -28,7 +28,7 @@ GET http://127.0.0.1:5005/produtos/4
 
 ###
 
-PUT http://[::1]:5005/produto/11
+PUT http://127.0.0.1:5005/produto/11
 Content-Type: application/json
 
 {"preco": 9.99,
@@ -37,21 +37,21 @@ Content-Type: application/json
      
 ###
 
-DELETE http://[::1]:5005/produto/5
+DELETE http://127.0.0.1:5005/produto/5
 
 
 
 ###
 
-GET http://[::1]:5005/produtos/status/false
+GET http://127.0.0.1:5005/produtos/status/false
 
 ###
 
-PATCH  http://[::1]:5005/produto/10/Livros
+PATCH  http://127.0.0.1:5005/produto/10/Livros
 
 ###
 
-GET http://[::1]:5005/produtos/categoria/Livros
+GET http://127.0.0.1:5005/produtos/categoria/Livros
 
 
 

@@ -2,6 +2,7 @@ node_modules
 .vscode
 .env
 
+
 ## <!-- postgres:// -------- banco de dados 
 ##aoi_node_postgres_render_user ----usuario :
 ##xGwKadS98osnhkRLxqYzbjQoag2rpEhD ----password @
